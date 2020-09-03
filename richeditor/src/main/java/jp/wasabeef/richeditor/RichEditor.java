@@ -502,10 +502,9 @@ public class RichEditor extends WebView {
 
       if (TextUtils.indexOf(url, CALLBACK_SCHEME) == 0) {
         callback(decode);
-        asyncStateCheck(decode, mDecorationStateListener);
         return true;
       } else if (TextUtils.indexOf(url, STATE_SCHEME) == 0) {
-        stateCheck(decode);
+        asyncStateCheck(decode, mDecorationStateListener);
         return true;
       }
 

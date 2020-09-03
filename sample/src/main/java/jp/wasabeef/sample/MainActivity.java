@@ -6,6 +6,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
+import java.util.List;
 
 import jp.wasabeef.richeditor.RichEditor;
 
@@ -29,6 +33,13 @@ public class MainActivity extends AppCompatActivity {
     //mEditor.setBackground("https://raw.githubusercontent.com/wasabeef/art/master/chip.jpg");
     mEditor.setPlaceholder("Insert text here...");
     //mEditor.setInputEnabled(false);
+
+    mEditor.setOnDecorationChangeListener(new RichEditor.OnDecorationStateListener() {
+      @Override
+      public void onStateChangeListener(String text, List<RichEditor.Type> types) {
+        Log.d("#####", types.toString());
+      }
+    });
 
     mPreview = (TextView) findViewById(R.id.preview);
     mEditor.setOnTextChangeListener(new RichEditor.OnTextChangeListener() {
