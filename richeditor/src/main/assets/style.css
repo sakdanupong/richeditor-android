@@ -40,4 +40,9 @@ body {
 #editor[placeholder]:empty:not(:focus):before {
   content: attr(placeholder);
   opacity: .5;
+}}
+
+pre {
+  overflow : auto;
+	color : green
 }

@@ -134,6 +134,11 @@ RE.setNumbers = function() {
     document.execCommand('insertOrderedList', false, null);
 }
 
+RE.setPre = function() {
+if (!document.execCommand('FormatBlock', false, 'pre')) {
+  		document.execCommand('FormatBlock', false, '<pre>');};
+}
+
 RE.setTextColor = function(color) {
     RE.restorerange();
     document.execCommand("styleWithCSS", null, true);
