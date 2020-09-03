@@ -27,8 +27,9 @@ RE.editor = document.getElementById('editor');
 document.addEventListener("selectionchange", function() { RE.backuprange(); });
 
 // Initializations
-RE.callback = function() {
+RE.callback = function(e) {
     window.location.href = "re-callback://" + encodeURI(RE.getHtml());
+    RE.enabledEditingItems(e);
 }
 
 RE.setHtml = function(contents) {
@@ -307,7 +308,9 @@ RE.removeFormat = function() {
 }
 
 // Event Listeners
-RE.editor.addEventListener("input", RE.callback);
+RE.editor.addEventListener("input", function(e) {
+    RE.callback(e)
+});
 RE.editor.addEventListener("keyup", function(e) {
     var KEY_LEFT = 37, KEY_RIGHT = 39;
     if (e.which == KEY_LEFT || e.which == KEY_RIGHT) {
