@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.AttributeSet;
@@ -56,7 +57,8 @@ public class RichEditor extends WebView {
     JUSTIFYCENTER,
     JUSTIFYFULL,
     JUSTUFYLEFT,
-    JUSTIFYRIGHT
+    JUSTIFYRIGHT,
+    PRE
   }
 
   public interface OnTextChangeListener {
@@ -302,6 +304,10 @@ public class RichEditor extends WebView {
     exec("javascript:RE.setUnderline();");
   }
 
+  public void setPre() {
+    exec("javascript:RE.setPre();");
+  }
+
   public void setTextColor(int color) {
     exec("javascript:RE.prepareInsert();");
 
@@ -430,6 +436,7 @@ public class RichEditor extends WebView {
 
       if (TextUtils.indexOf(url, CALLBACK_SCHEME) == 0) {
         callback(decode);
+        asyncStateCheck(decode, mDecorationStateListener);
         return true;
       } else if (TextUtils.indexOf(url, STATE_SCHEME) == 0) {
         stateCheck(decode);
@@ -438,5 +445,46 @@ public class RichEditor extends WebView {
 
       return super.shouldOverrideUrlLoading(view, url);
     }
+  }
+
+  private class StateCheckItem {
+    private String text;
+    private List<Type> types;
+    private StateCheckItem(String text, List<Type> types) {
+      this.text = text;
+      this.types = types;
+    }
+
+    public String getText() {
+      return text;
+    }
+
+    public List<Type> getTypes() {
+      return types;
+    }
+  }
+  @SuppressLint("StaticFieldLeak")
+  private void asyncStateCheck(final String text, final OnDecorationStateListener listener) {
+    new AsyncTask<Void, String, StateCheckItem>() {
+      @Override
+      protected StateCheckItem doInBackground(Void... params) {
+        String state = text.replaceFirst(STATE_SCHEME, "").toUpperCase(Locale.ENGLISH);
+        List<Type> types = new ArrayList<>();
+        for (Type type : Type.values()) {
+          if (TextUtils.indexOf(state, type.name()) != -1) {
+            types.add(type);
+          }
+        }
+
+        return new StateCheckItem(text, types);
+      }
+
+      @Override
+      protected void onPostExecute(StateCheckItem item) {
+        if (listener != null) {
+          listener.onStateChangeListener(item.getText(), item.getTypes());
+        }
+      }
+    }.execute();
   }
 }

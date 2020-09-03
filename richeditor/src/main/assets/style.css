@@ -41,3 +41,8 @@ body {
   content: attr(placeholder);
   opacity: .5;
 }}
+
+pre {
+  overflow : auto;
+	color : green
+}
