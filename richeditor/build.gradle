@@ -1,4 +1,6 @@
 apply plugin: 'com.android.library'
+//apply plugin: 'com.github.dcendents.android-maven'
+group='com.github.sakdanupong'
 
 android {
   compileSdkVersion COMPILE_SDK_VERSION as int
@@ -10,7 +12,6 @@ android {
     versionName VERSION_NAME
   }
 }
-
 
 dependencies {
   testImplementation "junit:junit:4.13"
