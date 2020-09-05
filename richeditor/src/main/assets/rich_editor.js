@@ -357,7 +357,7 @@ RE.removeFormat = function() {
 }
 
 RE.removeFormatBlock = function() {
-    document.execCommand('formatBlock', false, 'p');
+    document.execCommand('formatBlock', false, 'div');
 }
 
 // Event Listeners
