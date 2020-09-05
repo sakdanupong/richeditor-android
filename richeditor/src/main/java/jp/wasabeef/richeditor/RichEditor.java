@@ -341,6 +341,10 @@ public class RichEditor extends WebView {
     exec("javascript:RE.removeFormat();");
   }
 
+  public void removeFormatBlock() {
+    exec("javascript:RE.removeFormatBlock();");
+  }
+
   public void setHeading(int heading) {
     exec("javascript:RE.setHeading('" + heading + "');");
   }
