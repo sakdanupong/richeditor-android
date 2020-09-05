@@ -307,6 +307,10 @@ RE.removeFormat = function() {
     document.execCommand('removeFormat', false, null);
 }
 
+RE.removeFormatBlock = function() {
+    document.execCommand('formatBlock', false, 'p');
+}
+
 // Event Listeners
 RE.editor.addEventListener("input", function(e) {
     RE.callback(e)
