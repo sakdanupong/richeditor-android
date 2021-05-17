@@ -32,8 +32,8 @@ document.addEventListener("selectionchange", function() { RE.backuprange(); });
 
 // Initializations
 RE.callback = function(e) {
-    window.location.href = "re-callback://" + encodeURI(RE.getHtml());
-    RE.enabledEditingItems(e);
+    window.location.href = "re-callback://" + encodeURIComponent(RE.getHtml());
+    RE.enabledEditingItems;
 }
 
 RE.setHtml = function(contents) {
