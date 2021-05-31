@@ -37,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     mEditor.setOnDecorationChangeListener(new RichEditor.OnDecorationStateListener() {
       @Override
       public void onStateChangeListener(String text, List<RichEditor.Type> types) {
+        Log.d("#####", text);
         Log.d("#####", types.toString());
       }
     });

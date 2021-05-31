@@ -61,7 +61,8 @@ public class RichEditor extends WebView {
     JUSTIFYFULL,
     JUSTUFYLEFT,
     JUSTIFYRIGHT,
-    PRE
+    PRE,
+    HYPER_LINK
   }
 
   public interface OnTextChangeListener {

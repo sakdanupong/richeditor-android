@@ -256,7 +256,12 @@ RE.insertLink = function(url, title) {
        sel.removeAllRanges();
        sel.addRange(range);
    }
-    RE.callback();
+
+   RE.callback();
+
+   var items = [];
+   items.push('hyper_link');
+   window.location.href = "re-state://" + encodeURI(items.join(','));
 }
 
 RE.setTodo = function(text) {
@@ -335,7 +340,21 @@ RE.enabledEditingItems = function(e) {
         items.push(formatBlock);
     }
 
+    if(getSelectedNode().nodeName === "A") {
+      items.push('hyper_link');
+    }
+
     window.location.href = "re-state://" + encodeURI(items.join(','));
+}
+
+function getSelectedNode() {
+    if (document.selection) {
+        return document.selection.createRange().parentElement();
+    } else {
+        var selection = window.getSelection();
+        if (selection.rangeCount > 0)
+            return selection.getRangeAt(0).startContainer.parentNode;
+    }
 }
 
 RE.focus = function() {
@@ -362,8 +381,9 @@ RE.removeFormatBlock = function() {
 
 // Event Listeners
 RE.editor.addEventListener("input", function(e) {
-    RE.callback(e)
+    RE.callback(e);
 });
+
 RE.editor.addEventListener("keyup", function(e) {
     var KEY_LEFT = 37, KEY_RIGHT = 39;
     if (e.which == KEY_LEFT || e.which == KEY_RIGHT) {
