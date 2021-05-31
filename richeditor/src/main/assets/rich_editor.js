@@ -257,11 +257,10 @@ RE.insertLink = function(url, title) {
        sel.addRange(range);
    }
 
-   RE.callback();
-
    var items = [];
    items.push('hyper_link');
    window.location.href = "re-state://" + encodeURI(items.join(','));
+   RE.callback();
 }
 
 RE.setTodo = function(text) {
