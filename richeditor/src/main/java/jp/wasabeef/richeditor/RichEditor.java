@@ -75,6 +75,10 @@ public class RichEditor extends WebView {
     void onStateChangeListener(String text, List<Type> types);
   }
 
+  public interface OnSelectItemListener {
+    void onSelectInsertLink(String url);
+  }
+
   public interface AfterInitialLoadListener {
 
     void onAfterInitialLoad(boolean isReady);
@@ -88,6 +92,8 @@ public class RichEditor extends WebView {
   private OnTextChangeListener mTextChangeListener;
   private OnDecorationStateListener mDecorationStateListener;
   private AfterInitialLoadListener mLoadListener;
+  private OnSelectItemListener mSelectItemListener;
+  private boolean isReadOnly = false;
 
   public RichEditor(Context context) {
     this(context, null);
@@ -121,6 +127,10 @@ public class RichEditor extends WebView {
 
   public void setOnDecorationChangeListener(OnDecorationStateListener listener) {
     mDecorationStateListener = listener;
+  }
+
+  public void setOnSelectItemListener(OnSelectItemListener listener) {
+    mSelectItemListener = listener;
   }
 
   public void setOnInitialLoadListener(AfterInitialLoadListener listener) {
@@ -471,6 +481,19 @@ public class RichEditor extends WebView {
     exec("javascript:RE.blurFocus();");
   }
 
+  public void setIsReadOnly(boolean readOnly) {
+    isReadOnly = readOnly;
+    if (readOnly) {
+      exec("javascript:RE.setReadOnly();");
+    } else {
+      exec("javascript:RE.setEditable();");
+    }
+  }
+
+  public boolean getIsReadOnly() {
+    return isReadOnly;
+  }
+
   private String convertHexColorString(int color) {
     return String.format("#%06X", (0xFFFFFF & color));
   }
@@ -496,6 +519,10 @@ public class RichEditor extends WebView {
     }
   }
 
+  private void didSelectInsertLink(String url) {
+    mSelectItemListener.onSelectInsertLink(url);
+  }
+
   protected class EditorWebViewClient extends WebViewClient {
     @Override
     public void onPageFinished(WebView view, String url) {
@@ -517,6 +544,11 @@ public class RichEditor extends WebView {
         return true;
       }
 
+      if (isReadOnly) {
+        didSelectInsertLink(decode);
+        return true;
+      }
+
       return super.shouldOverrideUrlLoading(view, url);
     }
 
@@ -533,6 +565,12 @@ public class RichEditor extends WebView {
         stateCheck(decode);
         return true;
       }
+
+      if (isReadOnly) {
+        didSelectInsertLink(decode);
+        return true;
+      }
+
       return super.shouldOverrideUrlLoading(view, request);
     }
   }

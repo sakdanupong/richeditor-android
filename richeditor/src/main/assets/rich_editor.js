@@ -263,6 +263,14 @@ RE.insertLink = function(url, title) {
    RE.callback();
 }
 
+RE.setReadOnly = function() {
+  document.getElementById('editor').contentEditable = false;
+}
+
+RE.setEditable = function() {
+  document.getElementById('editor').contentEditable = true;
+}
+
 RE.setTodo = function(text) {
     var html = '<input type="checkbox" name="'+ text +'" value="'+ text +'"/> &nbsp;';
     document.execCommand('insertHTML', false, html);

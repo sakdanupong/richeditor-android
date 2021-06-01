@@ -2,6 +2,8 @@ package jp.wasabeef.sample;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.view.View;
 import android.widget.TextView;
 
@@ -256,13 +258,21 @@ public class MainActivity extends AppCompatActivity {
     findViewById(R.id.action_insert_link).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
+
         mEditor.insertLink("https://github.com/wasabeef", "wasabeef");
+        mEditor.setIsReadOnly(true);
       }
     });
     findViewById(R.id.action_insert_checkbox).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View v) {
         mEditor.insertTodo();
+      }
+    });
+
+    mEditor.setOnSelectItemListener(new RichEditor.OnSelectItemListener() {
+      @Override public void onSelectInsertLink(String url) {
+        Log.d("####", url);
       }
     });
   }
