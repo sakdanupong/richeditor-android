@@ -520,7 +520,9 @@ public class RichEditor extends WebView {
   }
 
   private void didSelectInsertLink(String url) {
-    mSelectItemListener.onSelectInsertLink(url);
+    if (mSelectItemListener != null) {
+      mSelectItemListener.onSelectInsertLink(url);
+    }
   }
 
   protected class EditorWebViewClient extends WebViewClient {
